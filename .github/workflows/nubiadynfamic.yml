@@ -1,4 +1,4 @@
-name: GSI - Erfan
+name: oOf dynamic again
 
 on:
 #  release:
@@ -12,18 +12,11 @@ on:
 #    - cron: 0 8 * * 5
   watch:
     types: [started]
-
+    
 env:
-  ROM: Nubia
-  ZIP: Nubia
-  TYPE: build
-  ROM_LINK: A_6.10.2-update-full_1579330406.zip
-  Post_Name: FuntouchOS
-  Android_Version: 10
-  Device_Model: Vivo V9
-  MIR: bit
-  MIR1: wet
-  TZ: Asia/Kolkata
+  ROM_URL: https://oxygenos.oneplus.net/OnePlus7TProOxygen_13.W.06_OTA_006_all_2007030104_71b23c0ee98240df.zip
+  ROM_NAME: OxygenOS
+  ZIP_NAME: OxygenOS
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,34 +25,34 @@ jobs:
        - name: Checkout
          uses: actions/checkout@master
 
-       - name: Set up python
-         uses: actions/setup-python@v2
-         with:
-           python-version: '3.8.2'
-
-       - name: Execute nubia
+       - name: Initializing environments
          run: |
-               chmod +x initial.sh
-               . initial.sh
-       
-       - name: Clone ErfanGSI Source Codes
-         run: git clone --recurse-submodules https://github.com/qrovic/ErfanGSIs -b master
-       
-       - name: Setting up ErfanGSI requirements
+            sudo -E apt-get -qq update
+            sudo -E apt-get -qq install git openjdk-8-jdk wget
+            sudo apt-get install wget
+            sudo apt-get install p7zip-full
+            sudo apt-get update -y
+            sudo apt-get install -y simg2img  
+            sudo apt-get install -y brotli
+            sudo apt-get install unzip
+            sudo apt-get install zip gzip tar
+        
+       - name: Payload
          run: |
-              sudo chmod -R 777 ErfanGSIs
-              cd ErfanGSIs
               sudo aria2c http://rom.download.nubia.com/Europe/NX659J/V411/NX659J-update.zip
-              sudo bash setup.sh
-       
-       - name: Execute nubia
+              sudo unzip *.zip
+              sudo brotli -d system.new.dat.br
+              sudo rm -f system.new.dat.br
+              sudo python3 sdat2img.py system.new.dat system.transfer.list "system.img"
+              sudo rm -rf system.new.dat system.transfer.list
+              sudo simg2img system.img system.img.raw
+              sudo rm -f system.img 
+              sudo mv system.img.raw system.img
+              sudo zip nubiaaa.zip system.img 
+              sudo chmod 0755 nubiaaa.zip
+              
+       - name: upload aonly n info
          run: |
-               chmod +x nubia.sh
-               . nubia.sh
-               
-       - name: Copy and rename A-Only build 
-         run: |
-              cd ErfanGSIs
-              sudo ./make.sh system AB out
-              7z a lol.zip out/*.img
- 
+              curl -sL https://git.io/file-transfer | sh
+              ./transfer bit nubiaaa.zip
+              
