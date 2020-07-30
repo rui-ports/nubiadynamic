@@ -18,6 +18,8 @@ brotli_exec="$toolsdir/$HOST/bin/brotli"
 #############################################################
 
 echo Unzipping fw..
+ls
+aria2c http://rom.download.nubia.com/Europe/NX659J/V411/NX659J-update.zip
 mkdir -p $tmpdir
 unzip *.zip -p -d $tmpdir
 echo "Converting system image..."
