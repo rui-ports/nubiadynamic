@@ -1,0 +1,65 @@
+name: GSI - Erfan
+
+on:
+#  release:
+#    types: [published]
+#  push:
+#    branches:
+#      - master
+#    paths:
+#      - '.config'
+#  schedule:
+#    - cron: 0 8 * * 5
+  watch:
+    types: [started]
+
+env:
+  ROM: Nubia
+  ZIP: Nubia
+  TYPE: build
+  ROM_LINK: A_6.10.2-update-full_1579330406.zip
+  Post_Name: FuntouchOS
+  Android_Version: 10
+  Device_Model: Vivo V9
+  MIR: bit
+  MIR1: wet
+  TZ: Asia/Kolkata
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+       - name: Checkout
+         uses: actions/checkout@master
+
+       - name: Set up python
+         uses: actions/setup-python@v2
+         with:
+           python-version: '3.8.2'
+
+       - name: Execute nubia
+         run: |
+               chmod +x initial.sh
+               . initial.sh
+       
+       - name: Clone ErfanGSI Source Codes
+         run: git clone --recurse-submodules https://github.com/qrovic/ErfanGSIs -b master
+       
+       - name: Setting up ErfanGSI requirements
+         run: |
+              sudo chmod -R 777 ErfanGSIs
+              cd ErfanGSIs
+              sudo aria2c http://rom.download.nubia.com/Europe/NX659J/V411/NX659J-update.zip
+              sudo bash setup.sh
+       
+       - name: Execute nubia
+         run: |
+               chmod +x nubia.sh
+               . nubia.sh
+               
+       - name: Copy and rename A-Only build 
+         run: |
+              cd ErfanGSIs
+              sudo ./make.sh system AB out
+              7z a lol.zip *.img
+ 
