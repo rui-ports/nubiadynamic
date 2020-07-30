@@ -54,6 +54,7 @@ jobs:
        
        - name: Execute nubia
          run: |
+               cd ErfanGSIs
                chmod +x nubia.sh
                . nubia.sh
                
