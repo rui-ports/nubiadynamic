@@ -1,85 +1,68 @@
-#!/bin/bash
+#!bin/bash
 
-#Variables
-
+# Variables
 PARTITIONS=("system" "product" "opproduct")
 payload_extractor="tools/update_payload_extractor/extract.py"
 LOCALDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 outdir="$LOCALDIR/cache"
 tmpdir="$outdir/tmp"
-
+HOST="$(uname)"
+toolsdir="$LOCALDIR/tools"
+simg2img="$toolsdir/$HOST/bin/simg2img"
+packsparseimg="$toolsdir/$HOST/bin/packsparseimg"
+unsin="$toolsdir/$HOST/bin/unsin"
+payload_extractor="$toolsdir/update_payload_extractor/extract.py"
+sdat2img="$toolsdir/sdat2img.py"
+ozipdecrypt="$toolsdir/oppo_ozip_decrypt/ozipdecrypt.py"
+brotli_exec="$toolsdir/$HOST/bin/brotli"
 #############################################################
 
-usage() {
-    echo "Usage: $0 <Firmware Type> <AB or Aonly> [Path to Firmware]"
-    echo -e "\tFirmware Type! = OxygenOS or Pixel"
-    echo -e "\tPath to Firmware!"
-}
+echo Unzipping fw..
+mkdir -p $tmpdir
+unzip *.zip -p -d $tmpdir
+echo "Converting system image..."
+$brotli_exec -d "$tmpdir/system.new.dat.br"
+rm -f $tmpdir/system.new.dat.br
+cd $tmpdir
+python3 $sdat2img system.new.dat system.transfer.list "system.img"
+rm -rf system.new.dat system.transfer.list
+$simg2img system.img system.img.raw
+rm -f system.img 
+mv system.img.raw system.img
+cd ..
+# Unzip product partition
+echo "Converting product image .."
+$brotli_exec -d "$tmpdir/product.new.dat.br"
+rm -f $tmpdir/product.new.dat.br
+cd $tmpdir
+python3 $sdat2img product.new.dat product.transfer.list "product.img"
+$simg2img product.img product.img.raw
+rm -f product.img
+mv product.img.raw product.img
 
-if [ "$1" == "" ]; then
-    echo "Enter all needed parameters"
-    usage
-    exit 1
-fi
+# Make new dummy image
+echo "Creating dummy image"
+dd if=/dev/zero of=final.img bs=4k count=1048576
+mkfs.ext4 final.img
+tune2fs -c0 -i0 final.img
 
-echo "Create Temp and out dir"
-	mkdir -p "$tmpdir"
-	mkdir -p "$outdir"
+# Mount the two files
+echo "Merging two images.."
+mkdir mountsys &&mkdir mountpro &&mkdir mountfin
+sudo mount final.img mountfin
+sudo mount system.img mountsys
+sudo mount product.img mountpro
+sudo cp -v -r -p mountpro/* mountfin/system/product
+sudo umount product.img
+sudo umount final.img
+sudo umount system.img
+cd ../../
 
-unzip $3 -d $tmpdir &> /dev/null
-echo "Extracting Required Partitions . . . . "
-if [ $1 = "OxygenOS" ]; then
-		for partition in ${PARTITIONS[@]}; do
- 	   	    python $payload_extractor --partitions $partition --output_dir $tmpdir $tmpdir/payload.bin 
-		done
-	mv $tmpdir/system $outdir/system-old.img
-	mv $tmpdir/product $outdir/product.img
-	mv $tmpdir/opproduct $outdir/opproduct.img
-elif [ $1 = "Pixel" ]; then
-	unzip $tmpdir/*/*.zip -d $tmpdir &> /dev/null
-	simg2img $tmpdir/system.img $outdir/system-old.img
-	simg2img $tmpdir/product.img $outdir/product.img
-fi
-rm -rf $tmpdir
-echo "Creating Dummy System Image . . . . "
-dd if=/dev/zero of=$outdir/system.img bs=4k count=1048576
-mkfs.ext4 $outdir/system.img
-tune2fs -c0 -i0 $outdir/system.img
-echo "Mounting Images . . . . "
-	mkdir system
-	mkdir system-old
-	mount -o loop $outdir/system.img system/
-	mount -o ro $outdir/system-old.img system-old/
-	echo "  "
-echo "Copying Files . . . . "
-	cp -v -r -p system-old/* system/ &> /dev/null
-	sync
-	umount system-old
-	rm $outdir/system-old.img
-	rm -rf system/product
-	ln -s system/product system/product
-    	rm -rf system/system/product
-    	mkdir system/system/product/
-echo "Merging product.img "
-	sudo mkdir $outdir/product
-	mount -o ro $outdir/product.img $outdir/product/
-	cp -v -r -p $outdir/product/* system/system/product/ &> /dev/null
-	sync
-	umount $outdir/product
-	rmdir $outdir/product/
-	rm $outdir/product.img
-if [ $1 = "OxygenOS" ]; then
-	echo "Merging opproduct.img "
-	sudo mkdir $outdir/opproduct
-	mount -o ro $outdir/opproduct.img $outdir/opproduct/
-	cp -v -r -p $outdir/opproduct/* system/oneplus/ &> /dev/null
-	sync
-	umount $outdir/opproduct
-	rmdir $outdir/opproduct/
-	rm $outdir/opproduct.img
-fi
-echo "Finalising "
-	mkdir out
-	rm -rf system-old/
-echo "Creating GSI"
-	./make.sh system/ $1 $2 out
+# Clean up
+echo "Cleaning up.."
+sudo rm -rf $tmpdir
+cp $tmpdir/final.img $outdir
+mv $outdir/final.img system.img
+
+# Finalize
+echo "Please finish creating GSI using make.sh script"
