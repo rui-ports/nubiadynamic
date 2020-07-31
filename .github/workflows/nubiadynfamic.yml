@@ -14,22 +14,6 @@ on:
     types: [started]
     
 env:
-  ROM_URL: name: oOf dynamic again
-
-on:
-#  release:
-#    types: [published]
-#  push:
-#    branches:
-#      - master
-#    paths:
-#      - '.config'
-#  schedule:
-#    - cron: 0 8 * * 5
-  watch:
-    types: [started]
-    
-env:
   ROM_URL: https://oxygenos.oneplus.net/OnePlus7TProOxygen_13.W.06_OTA_006_all_2007030104_71b23c0ee98240df.zip
   ROM_NAME: OxygenOS
   ZIP_NAME: OxygenOS
