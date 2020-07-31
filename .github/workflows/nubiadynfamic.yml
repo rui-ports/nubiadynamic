@@ -40,10 +40,13 @@ jobs:
             sudo add-apt-repository ppa:deadsnakes/ppa
             sudo apt update
             sudo apt install python3.8
-        
+
        - name: System.img
          run: |
               sudo aria2c http://bigota.d.miui.com/20.7.30/miui_LMI_20.7.30_2de74df6ca_11.0.zip
+        
+       - name: System.img
+         run: |
               sudo aria2c http://tdrive.manofuranium.workers.dev/sdat2img.py
               sudo chmod +x sdat2img.py
               sudo unzip *.zip
