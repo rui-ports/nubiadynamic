@@ -51,6 +51,8 @@ jobs:
               sudo rm -f system.new.dat.br
               sudo ./sdat2img.py system.transfer.list system.new.dat system.img
               sudo rm -rf system.new.dat system.transfer.list
+              sudo brotli -d product.new.dat.br
+              sudo rm -f product.new.dat.br
               sudo ./sdat2img.py product.transfer.list product.new.dat product.img
               sudo rm -rf product.new.dat product.transfer.list
               sudo zip miuia111.zip system.img product.img
