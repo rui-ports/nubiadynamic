@@ -47,7 +47,9 @@ jobs:
               sudo bash setup.sh
        
        - name: Downloading Firmware
-         run: sudo aria2c http://rom.download.nubia.com/Europe/NX659J/V411/NX659J-update.zip
+         run: |
+               cd ErfanGSIs
+               sudo aria2c http://rom.download.nubia.com/Europe/NX659J/V411/NX659J-update.zip
          
        - name: making
          run: |
