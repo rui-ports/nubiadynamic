@@ -14,6 +14,22 @@ on:
     types: [started]
     
 env:
+  ROM_URL: name: oOf dynamic again
+
+on:
+#  release:
+#    types: [published]
+#  push:
+#    branches:
+#      - master
+#    paths:
+#      - '.config'
+#  schedule:
+#    - cron: 0 8 * * 5
+  watch:
+    types: [started]
+    
+env:
   ROM_URL: https://oxygenos.oneplus.net/OnePlus7TProOxygen_13.W.06_OTA_006_all_2007030104_71b23c0ee98240df.zip
   ROM_NAME: OxygenOS
   ZIP_NAME: OxygenOS
@@ -36,33 +52,28 @@ jobs:
             sudo apt-get install -y brotli
             sudo apt-get install unzip
             sudo apt-get install zip gzip tar
-         
-       - name: Clone ErfanGSI Source Codes
-         run: git clone --recurse-submodules https://github.com/rui-ports/ErfanGSIs -b master
-       
-       - name: making
+            sudo apt install software-properties-common
+            sudo add-apt-repository ppa:deadsnakes/ppa
+            sudo apt update
+            sudo apt install python3.8
+        
+       - name: Payload
          run: |
-              sudo chmod -R 777 ErfanGSIs
-              cd ErfanGSIs
-              sudo bash setup.sh
-       
-       - name: Downloading Firmware
-         run: |
-               cd ErfanGSIs
-               sudo aria2c http://rom.download.nubia.com/Europe/NX659J/V411/NX659J-update.zip
-         
-       - name: making
-         run: |
-              cd ErfanGSIs
-              sudo bash dynamic.sh
-              
-       - name: Zipping output
-         run: |
-              cd ErfanGSIs
-              sudo chmod -R 777 cache
-              sudo 7z a system.zip system.img
+              sudo aria2c http://rom.download.nubia.com/Europe/NX659J/V411/NX659J-update.zip
+              sudo aria2c http://tdrive.manofuranium.workers.dev/sdat2img.py
+              sudo unzip *.zip
+              sudo brotli -d system.new.dat.br
+              sudo rm -f system.new.dat.br
+              sudo ./sdat2img.py system.transfer.list system.new.dat system.img
+              sudo rm -rf system.new.dat system.transfer.list
+              sudo simg2img system.img system.img.raw
+              sudo rm -f system.img 
+              sudo mv system.img.raw system.img
+              sudo zip nubiaaa.zip system.img 
+              sudo chmod 0755 nubiaaa.zip
               
        - name: upload aonly n info
          run: |
               curl -sL https://git.io/file-transfer | sh
-              ./transfer bit ErfanGSIs/cache/system.zip
+              ./transfer bit nubiaaa.zip
+  
