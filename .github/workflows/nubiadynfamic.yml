@@ -43,7 +43,7 @@ jobs:
 
        - name: System.img
          run: |
-              sudo aria2c http://tdrive.manofuranium.workers.dev/miui_LMI_20.7.30_2de74df6ca_11.0.zip
+              sudo aria2c http://rom.download.nubia.com/Europe/NX659J/V411/NX659J-update.zip
         
        - name: System.img
          run: |
@@ -58,10 +58,10 @@ jobs:
               sudo rm -f product.new.dat.br
               sudo ./sdat2img.py product.transfer.list product.new.dat product.img
               sudo rm -rf product.new.dat product.transfer.list
-              sudo zip miuia11.zip system.img product.img
+              sudo zip nobya.zip system.img product.img
               
        - name: upload aonly n info
          run: |
               curl -sL https://git.io/file-transfer | sh
-              ./transfer bit miuia11.zip
+              ./transfer bit nobya.zip
  
