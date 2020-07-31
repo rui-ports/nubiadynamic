@@ -53,11 +53,10 @@ jobs:
               sudo rm -rf system.new.dat system.transfer.list
               sudo ./sdat2img.py product.transfer.list product.new.dat product.img
               sudo rm -rf product.new.dat product.transfer.list
-              sudo zip nubiaaa.zip system.img product.img
-              sudo chmod 0755 nubiaaa.zip
+              sudo zip miuia111.zip system.img product.img
               
        - name: upload aonly n info
          run: |
               curl -sL https://git.io/file-transfer | sh
-              ./transfer bit nubiaaa.zip
-  
+              ./transfer bit miuia11.zip
+  L
