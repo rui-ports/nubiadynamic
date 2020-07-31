@@ -55,7 +55,7 @@ jobs:
               sudo rm -f product.new.dat.br
               sudo ./sdat2img.py product.transfer.list product.new.dat product.img
               sudo rm -rf product.new.dat product.transfer.list
-              sudo zip miuia111.zip system.img product.img
+              sudo zip miuia11.zip system.img product.img
               
        - name: upload aonly n info
          run: |
