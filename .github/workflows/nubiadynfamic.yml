@@ -52,9 +52,9 @@ jobs:
               sudo ./sdat2img.py system.transfer.list system.new.dat system.img
               sudo rm -rf system.new.dat system.transfer.list
               sudo simg2img system.img system.img.raw
-              sudo rm -f system.img 
-              sudo mv system.img.raw system.img
-              sudo zip nubiaaa.zip system.img 
+              sudo ./sdat2img.py product.transfer.list product.new.dat product.img
+              sudo rm -rf product.new.dat product.transfer.list
+              sudo zip nubiaaa.zip system.img product.img
               sudo chmod 0755 nubiaaa.zip
               
        - name: upload aonly n info
