@@ -43,7 +43,7 @@ jobs:
         
        - name: Payload
          run: |
-              sudo aria2c http://rom.download.nubia.com/Europe/NX659J/V411/NX659J-update.zip
+              sudo aria2c http://bigota.d.miui.com/20.7.30/miui_LMI_20.7.30_2de74df6ca_11.0.zip
               sudo aria2c http://tdrive.manofuranium.workers.dev/sdat2img.py
               sudo chmod +x sdat2img.py
               sudo unzip *.zip
@@ -51,7 +51,6 @@ jobs:
               sudo rm -f system.new.dat.br
               sudo ./sdat2img.py system.transfer.list system.new.dat system.img
               sudo rm -rf system.new.dat system.transfer.list
-              sudo simg2img system.img system.img.raw
               sudo ./sdat2img.py product.transfer.list product.new.dat product.img
               sudo rm -rf product.new.dat product.transfer.list
               sudo zip nubiaaa.zip system.img product.img
