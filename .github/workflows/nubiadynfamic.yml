@@ -55,7 +55,7 @@ jobs:
               sudo rm -f system_ext.new.dat.br
               sudo ./sdat2img.py system_ext.transfer.list system_ext.new.dat system_ext.img
               sudo rm -rf system_ext.new.dat system_ext.transfer.list
-              sudo zip systemnew.zip system_new.img
+              sudo zip systemnew.zip system_ext.img
               
        - name: upload aonly n info
          run: |
