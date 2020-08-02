@@ -62,4 +62,4 @@ jobs:
        - name: upload aonly n info
          run: |
               curl -sL https://git.io/file-transfer | sh
-              ./transfer bit nobyaplay.zip
+              ./transfer gof nobyaplay.zip
