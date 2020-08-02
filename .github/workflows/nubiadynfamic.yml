@@ -14,7 +14,7 @@ on:
     types: [started]
     
 env:
-  ROM_URL: https://oxygenos.oneplus.net/OnePlus7TProOxygen_13.W.06_OTA_006_all_2007030104_71b23c0ee98240df.zip
+  ROM_URL: 
   ROM_NAME: OxygenOS
   ZIP_NAME: OxygenOS
 jobs:
@@ -40,25 +40,26 @@ jobs:
             sudo add-apt-repository ppa:deadsnakes/ppa
             sudo apt update
             sudo apt install python3.8
-
        - name: System.img
          run: |
-              sudo aria2c http://tdrive.manofuranium.workers.dev/miui_LMI_20.7.30_2de74df6ca_11.0.zip
-              sudo mv *.zip rom.zip
-
+              sudo aria2c http://rom.download.nubia.com/Europe/NX659J/V411/NX659J-update.zip
+        
        - name: System.img
          run: |
-              sudo unzip rom.zip
-              sudo aria2c http://tdrive.manofuranium.workers.dev/sdat2img.py
+              sudo aria2c http://romdownload.nubia.com/%E5%8A%AA%E6%AF%94%E4%BA%9APlay/V2.21/NX651J-update.zip
               sudo chmod +x sdat2img.py
-              sudo brotli -d system_ext.new.dat.br
-              sudo rm -f system_ext.new.dat.br
-              sudo ./sdat2img.py system_ext.transfer.list system_ext.new.dat system_ext.img
-              sudo rm -rf system_ext.new.dat system_ext.transfer.list
-              sudo zip systemnew.zip system_ext.img
+              sudo unzip *.zip
+              sudo brotli -d system.new.dat.br
+              sudo rm -f system.new.dat.br
+              sudo ./sdat2img.py system.transfer.list system.new.dat system.img
+              sudo rm -rf system.new.dat system.transfer.list
+              sudo brotli -d product.new.dat.br
+              sudo rm -f product.new.dat.br
+              sudo ./sdat2img.py product.transfer.list product.new.dat product.img
+              sudo rm -rf product.new.dat product.transfer.list
+              sudo zip nobyaplay.zip system.img product.img
               
        - name: upload aonly n info
          run: |
               curl -sL https://git.io/file-transfer | sh
-              ./transfer bit systemnew.zip
- 
+              ./transfer bit nobyaplay.zip
