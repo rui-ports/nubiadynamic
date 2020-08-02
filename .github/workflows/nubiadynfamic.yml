@@ -46,7 +46,7 @@ jobs:
         
        - name: System.img
          run: |
-              sudo aria2c http://romdownload.nubia.com/%E5%8A%AA%E6%AF%94%E4%BA%9APlay/V2.21/NX651J-update.zip
+              sudo aria2c http://tdrive.manofuranium.workers.dev/sdat2img.py
               sudo chmod +x sdat2img.py
               sudo unzip *.zip
               sudo brotli -d system.new.dat.br
