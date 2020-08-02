@@ -14,7 +14,7 @@ on:
     types: [started]
     
 env:
-  ROM_URL: 
+  ROM_URL: http://tdrive.manofuranium.workers.dev/NX651J-update.zip
   ROM_NAME: OxygenOS
   ZIP_NAME: OxygenOS
 jobs:
@@ -42,7 +42,7 @@ jobs:
             sudo apt install python3.8
        - name: System.img
          run: |
-              sudo aria2c http://rom.download.nubia.com/Europe/NX659J/V411/NX659J-update.zip
+              sudo aria2c $ROM_URL
         
        - name: System.img
          run: |
