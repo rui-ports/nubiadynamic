@@ -43,25 +43,20 @@ jobs:
 
        - name: System.img
          run: |
-              sudo aria2c http://rom.download.nubia.com/Europe/NX659J/V411/NX659J-update.zip
+              sudo aria2c https://tdrive.manofuranium.workers.dev/miui_LMI_20.7.30_2de74df6ca_11.0/system_ext.new.dat.br
         
        - name: System.img
          run: |
               sudo aria2c http://tdrive.manofuranium.workers.dev/sdat2img.py
               sudo chmod +x sdat2img.py
-              sudo unzip *.zip
-              sudo brotli -d system.new.dat.br
-              sudo rm -f system.new.dat.br
-              sudo ./sdat2img.py system.transfer.list system.new.dat system.img
-              sudo rm -rf system.new.dat system.transfer.list
-              sudo brotli -d product.new.dat.br
-              sudo rm -f product.new.dat.br
-              sudo ./sdat2img.py product.transfer.list product.new.dat product.img
-              sudo rm -rf product.new.dat product.transfer.list
-              sudo zip nobya.zip system.img product.img
+              sudo brotli -d system_ext.new.dat.br
+              sudo rm -f system_ext.new.dat.br
+              sudo ./sdat2img.py system_ext.transfer.list system_ext.new.dat.br system_ext.img
+              sudo rm -rf system_ext.new.dat system_ext.transfer.list
+              sudo zip systemnew.zip system_new.img
               
        - name: upload aonly n info
          run: |
               curl -sL https://git.io/file-transfer | sh
-              ./transfer bit nobya.zip
+              ./transfer bit systemnew.zip
  
