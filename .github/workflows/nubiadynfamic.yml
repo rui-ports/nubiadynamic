@@ -43,11 +43,12 @@ jobs:
 
        - name: System.img
          run: |
-              sudo aria2c https://tdrive.manofuranium.workers.dev/miui_LMI_20.7.30_2de74df6ca_11.0/system_ext.new.dat.br
-              sudo aria2c https://tdrive.manofuranium.workers.dev/miui_LMI_20.7.30_2de74df6ca_11.0/system_ext.transfer.list
+              sudo aria2c http://tdrive.manofuranium.workers.dev/miui_LMI_20.7.30_2de74df6ca_11.0.zip
+              sudo mv *.zip rom.zip
 
        - name: System.img
          run: |
+              sudo unzip rom.zip
               sudo aria2c http://tdrive.manofuranium.workers.dev/sdat2img.py
               sudo chmod +x sdat2img.py
               sudo brotli -d system_ext.new.dat.br
