@@ -44,7 +44,8 @@ jobs:
        - name: System.img
          run: |
               sudo aria2c https://tdrive.manofuranium.workers.dev/miui_LMI_20.7.30_2de74df6ca_11.0/system_ext.new.dat.br
-        
+              sudo aria2c https://tdrive.manofuranium.workers.dev/miui_LMI_20.7.30_2de74df6ca_11.0/system_ext.transfer.list
+
        - name: System.img
          run: |
               sudo aria2c http://tdrive.manofuranium.workers.dev/sdat2img.py
