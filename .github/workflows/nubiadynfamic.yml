@@ -14,7 +14,7 @@ on:
     types: [started]
     
 env:
-  ROM_URL: http://romdownload.nubia.com/%E7%BA%A2%E9%AD%945S/V6.18/NX659J-update.zip
+  ROM_URL: http://tdrive.manofuranium.workers.dev/NX659J-update.zip
   ROM_NAME: OxygenOS
   ZIP_NAME: OxygenOS
 jobs:
