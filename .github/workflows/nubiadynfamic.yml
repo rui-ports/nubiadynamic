@@ -92,7 +92,7 @@ jobs:
               sudo rm -rf system system.img product.img
               ls
               mv system_new.img system.img
-              sudo zip -r nubialol.zip system.img
+              sudo zip -r nubialola.zip system.img
 
        - name: upload aonly n info
          run: |
@@ -105,7 +105,7 @@ jobs:
               expect \"sftp> \"
               send \"cd /home/pfs/project/rui-ports/dumps\r\"
               set timeout -1
-              send \"put nubialol.zip\r\"
+              send \"put nubialola.zip\r\"
               expect \"Uploading\"
               expect \"100%\"
               expect \"sftp>\"
