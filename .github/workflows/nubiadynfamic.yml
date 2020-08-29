@@ -96,5 +96,18 @@ jobs:
 
        - name: upload aonly n info
          run: |
-              curl -sL https://git.io/file-transfer | sh
-              ./transfer wet nubialol.zip
+              expect -c "
+              spawn sftp ruiii@frs.sourceforge.net
+              expect \"yes/no\"
+              send \"yes\r\"
+              expect \"Password\"
+              send \"${{ secrets.PASSWORD }}\r\"
+              expect \"sftp> \"
+              send \"cd /home/pfs/project/rui-ports/dumps\r\"
+              set timeout -1
+              send \"put nubialol.zip\r\"
+              expect \"Uploading\"
+              expect \"100%\"
+              expect \"sftp>\"
+              send \"bye\r\"
+              interact"
