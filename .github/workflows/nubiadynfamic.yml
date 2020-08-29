@@ -57,9 +57,44 @@ jobs:
               sudo rm -f product.new.dat.br
               sudo ./sdat2img.py product.transfer.list product.new.dat product.img
               sudo rm -rf product.new.dat product.transfer.list
-              sudo zip nobyaplay.zip system.img product.img
               
        - name: upload aonly n info
          run: |
+              sudo su
+              dd if=/dev/zero of=system_new.img bs=6k count=1048576
+              mkfs.ext4 system_new.img
+              tune2fs -c0 -i0 system_new.img
+              mkdir system
+              mkdir system_new
+              sudo mount -o loop system_new.img system_new/
+              sudo mount -o ro system.img system/
+              sudo cp -v -r -p system/* system_new/
+              sync
+              sudo umount system/
+              cd system_new
+              sudo rmdir product
+              cd ..
+              mkdir systemop7
+              sudo mount -ro loop system.img systemop7/
+              sudo cp -v -r -p systemop7/product system_new/
+              sudo umount systemop7/
+              cd system_new/system
+              sudo rm product
+              sudo mkdir product
+              cd ..
+              cd ..
+              mkdir product
+              sudo mount -o ro product.img product/
+              sudo cp -v -r -p product/* system_new/system/product/
+              sync
+              sudo umount product/
+              sudo umount system_new/
+              sudo rm -rf system system.img product.img
+              ls
+              mv system_new.img system.img
+              sudo zip -r nubialol.zip system.img
+
+       - name: upload aonly n info
+         run: |
               curl -sL https://git.io/file-transfer | sh
-              ./transfer wet nobyaplay.zip
+              ./transfer wet nubialol.zip
