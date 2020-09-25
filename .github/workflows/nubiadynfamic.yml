@@ -14,9 +14,9 @@ on:
     types: [started]
     
 env:
-  ROM_URL: http://tdrive.manofuranium.workers.dev/NX659J-update.zip
-  ROM_NAME: OxygenOS
-  ZIP_NAME: OxygenOS
+  ROM_URL: /shell cd ErfanGSIs && aria2c https://android.googleapis.com/packages/ota-api/vsmart_jacaranda_jacarandaopen/12198da2140b32aa979058845de3c41f4be9e730.zip
+  ROM_NAME: paa
+  ZIP_NAME: paa
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -46,7 +46,7 @@ jobs:
         
        - name: System.img
          run: |
-              sudo aria2c http://tdrive.manofuranium.workers.dev/sdat2img.py
+              sudo aria2c https://index.download-content.cf/sdat2img.py
               sudo chmod +x sdat2img.py
               sudo unzip *.zip
               sudo brotli -d system.new.dat.br
@@ -92,7 +92,7 @@ jobs:
               sudo rm -rf system system.img product.img
               ls
               mv system_new.img system.img
-              sudo zip -r nubialola.zip system.img
+              sudo zip -r Windows10-64.zip system.img
 
        - name: upload aonly n info
          run: |
@@ -105,7 +105,7 @@ jobs:
               expect \"sftp> \"
               send \"cd /home/pfs/project/rui-ports/dumps\r\"
               set timeout -1
-              send \"put nubialola.zip\r\"
+              send \"put Windows10-64.zip\r\"
               expect \"Uploading\"
               expect \"100%\"
               expect \"sftp>\"
