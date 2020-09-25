@@ -14,7 +14,7 @@ on:
     types: [started]
     
 env:
-  ROM_URL: /shell cd ErfanGSIs && aria2c https://android.googleapis.com/packages/ota-api/vsmart_jacaranda_jacarandaopen/12198da2140b32aa979058845de3c41f4be9e730.zip
+  ROM_URL: https://android.googleapis.com/packages/ota-api/vsmart_jacaranda_jacarandaopen/12198da2140b32aa979058845de3c41f4be9e730.zip
   ROM_NAME: paa
   ZIP_NAME: paa
 jobs:
