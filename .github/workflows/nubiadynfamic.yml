@@ -14,9 +14,9 @@ on:
     types: [started]
     
 env:
-  ROM_URL: https://android.googleapis.com/packages/ota-api/vsmart_jacaranda_jacarandaopen/12198da2140b32aa979058845de3c41f4be9e730.zip
-  ROM_NAME: paa
-  ZIP_NAME: paa
+  ROM_URL: http://rom.download.nubia.com/Europe&Asia/NX659_V1S/V807/NX659J-update.zip
+  ROM_NAME: poooo
+  ZIP_NAME: poooo
 jobs:
   build:
     runs-on: ubuntu-latest
