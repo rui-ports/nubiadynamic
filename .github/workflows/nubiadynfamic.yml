@@ -27,18 +27,15 @@ jobs:
 
        - name: Initializing environments
          run: |
-            sudo -E apt-get -qq update
             sudo -E apt-get -qq install git openjdk-8-jdk wget 
             sudo -E apt-get install expect
             sudo apt-get install p7zip-full
-            sudo apt-get update -y
             sudo apt-get install -y simg2img  
             sudo apt-get install -y brotli
             sudo apt-get install unzip
             sudo apt-get install zip gzip tar
             sudo apt install software-properties-common
             sudo add-apt-repository ppa:deadsnakes/ppa
-            sudo apt update
             sudo apt install python3.8
        - name: System.img
          run: |
